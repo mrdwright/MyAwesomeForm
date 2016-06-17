@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WBS</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <style>
+        body {
+            overflow: hidden;
+            margin: 50px 0 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body ng-app="app" ng-controller="MyController as vm">
+<style ng-bind-html="style"></style>
+
+<form name="form" class="css-form" novalidate>
+    <ng-view ng-class="animationClass"></ng-view>
+</form>
+
+<script type="text/ng-template" id="page1.html">
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Step 1 of 2</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group" ng-class="{'has-error':form.name.$touched && form.name.$error.required}">
+                        <label class="control-label">Name <small class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i> required</small></label>
+                        <input type="text" class="form-control" ng-model="vm.user.name" name="name" required />
+                        <div ng-show="form.name.$touched && form.name.$error.required">
+                            <span class="help-block" ng-show="form.name.$error.required">Name is required.</span>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error':form.phone.$touched && (form.phone.$error.required || form.phone.$invalid)}">
+                        <label class="control-label">Phone Number <small class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i> required</small></label>
+                        <input type="tel" class="form-control" ng-model="vm.user.phone" name="phone" required ng-pattern="/^(?:\+?1[-. ]?)?\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/" />
+                        <div ng-show="form.phone.$touched && (form.phone.$error.required || form.phone.$invalid)">
+                            <span class="help-block" ng-show="form.phone.$error.required">Phone number is required.</span>
+                            <span class="help-block" ng-show="form.phone.$invalid">Please enter a valid phone number eg +1 604-555-1234</span>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error':form.email.$touched && (form.email.$error.required || form.email.$error.email)}">
+                        <label class="control-label">Email address <small class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i> required</small></label>
+                        <input type="email" class="form-control" ng-model="vm.user.email" name="email" required/>
+                        <div ng-show="form.email.$touched && (form.email.$error.required || form.email.$error.email)">
+                            <span class="help-block" ng-show="form.email.$error.required">Email is required</span>
+                            <span class="help-block" ng-show="form.email.$error.email">This is not a valid email.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-xs-6 col-xs-offset-6">
+                            <button ng-click="vm.slide('rtl');vm.go('/two')" class="btn btn-info btn-block" ng-disabled="form.$invalid" ng-class="{'disabled':form.$invalid}">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="page2.html">
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Step 2 of 2</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group" ng-class="{'has-error':form.language.$touched && form.language.$error.required}">
+                        <label class="control-label">Favourite Programming Language <small class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i> required</small></label>
+                        <input type="text" class="form-control" ng-model="vm.user.language" name="language" required />
+                        <div ng-show="form.language.$touched && form.language.$error.required">
+                            <span class="help-block" ng-show="form.language.$error.required">Favourite Programming Language is required.</span>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error':form.website.$touched && (form.website.$error.required || form.website.$invalid)}">
+                        <label class="control-label">Technical Website <small class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i> required</small></label>
+                        <input type="text" class="form-control" ng-model="vm.user.website" name="website" required ng-pattern="/^(http|https)\://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(/\S*)?$/" />
+                        <div ng-show="form.website.$touched && (form.website.$error.required || form.website.$invalid)">
+                            <span class="help-block" ng-show="form.website.$error.required">Technical Website is required.</span>
+                            <span class="help-block" ng-show="form.website.$invalid">Please enter a valid website eg. https://www.whistleblowersecurity.com/</span>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error':form.anticipated.$touched && form.anticipated.$error.required}">
+                        <label class="control-label">Most Anticipated Upcoming New Technology <small class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i> required</small></label>
+                        <input type="text" class="form-control" ng-model="vm.user.anticipated" name="anticipated" required />
+                        <div ng-show="form.anticipated.$touched && form.anticipated.$error.required">
+                            <span class="help-block" ng-show="form.anticipated.$error.required">Most Anticipated Upcoming New Technology is required.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <button ng-click="vm.slide('ltr');vm.go('/one')" class="btn btn-info btn-block">Back</button>
+                        </div>
+                        <div class="col-xs-6">
+                            <button ng-click="vm.slide('rtl');vm.go('/three');vm.submit()" class="btn btn-success btn-block" ng-class="{'disabled': form.$invalid}" ng-disabled="form.$invalid">Submit</button>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="page3.html">
+
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            <div class="panel panel-success">
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-success"><i class="fa fa-check-circle-o fa-3x pull-left" aria-hidden="true"></i><span style="
+font-size: 2.25em;
+">Success</span></li>
+                </ul>
+                <div class="panel-body">
+                    <p>
+                        Thank you for filling out my form! If you would like to submit the form again, click the link below.
+                    </p>
+                </div>
+                <div class="panel-footer">
+                    <button ng-click="vm.direction('ltr');vm.go('/one');vm.restart()" class="btn btn-info btn-block">Start the form again!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+    <script src="https://code.angularjs.org/1.5.6/angular.js"></script>
+    <script src="https://code.angularjs.org/1.5.6/angular-route.min.js"></script>
+    <script src="https://code.angularjs.org/1.5.6/angular-animate.min.js"></script>
+    <script src="https://code.angularjs.org/1.5.6/angular-sanitize.min.js"></script>
+    <script>
+        (function() {
+            'use strict';
+
+            angular
+                .module('app', [
+                    'ngRoute',
+                    'ngAnimate',
+                    'ngSanitize'
+                ]);
+
+            angular
+                .module('app')
+                .config(config);
+
+            function config($routeProvider) {
+                $routeProvider
+                    .when('/one', {
+                        templateUrl: 'page1.html'
+                    })
+                    .when('/two', {
+                        templateUrl: 'page2.html'
+                    })
+                    .when('/three', {
+                        templateUrl: 'page3.html'
+                    })
+                    .otherwise({
+                        redirectTo: '/one',
+                    });
+            }
+
+            angular
+                .module('app')
+                .controller('MyController', MyController);
+
+            MyController.$inject = ['$scope', '$rootScope', '$location', 'formFactory'];
+
+            /* @ngInject */
+            function MyController($scope, $rootScope, $location, formFactory) {
+                var vm = this;
+                var styles = {
+                    // appear from right
+                    rtl: '.ng-enter {   position:absolute;  -webkit-transition: 0.5s ease-out all;   -webkit-transform:translate3d(100%,0,0)  }  .ng-enter.ng-enter-active {   position:absolute;   width:100%; -webkit-transform:translate3d(0,0,0)}  .ng-leave {   width:100%; position:absolute;   -webkit-transition: 0.5s ease-out all;   -webkit-transform:translate3d(0,0,0)} .ng-leave.ng-leave-active {   width:100%; position:absolute;  -webkit-transform:translate3d(-100%,0,0) };',
+                    // appear from left
+                    ltr: '.ng-enter {   position:absolute;     -webkit-transition: 0.5s ease-out all; -webkit-transform:translate3d(-100%,0,0)}  .ng-enter.ng-enter-active {   position:absolute;   width:100%;  -webkit-transform:translate3d(0,0,0) }  .ng-leave {   width:100%; position:absolute;   -webkit-transition: 0.5s ease-out all;  -webkit-transform:translate3d(0,0,0)} .ng-leave.ng-leave-active {  width:100%;  position:absolute;  -webkit-transform:translate3d(100%,0,0) };'
+                };
+
+                vm.user = {};
+
+                vm.slide = slide;
+
+                vm.go = go;
+
+                vm.submit = submit;
+
+                vm.restart = restart;
+
+                slide('ltr');
+
+                function slide(dir) {
+                    $rootScope.style = styles[dir];
+                }
+
+                function go(path) {
+                    $location.path(path);
+                }
+
+                function submit() {
+                    formFactory.submit(vm.user);
+                }
+
+                function restart() {
+                    vm.user = {};
+                }
+            }
+
+            angular
+                .module('app')
+                .factory('formFactory', formFactory);
+
+            formFactory.$inject = ['$http'];
+
+            /* @ngInject */
+            function formFactory($http) {
+                var service = {
+                    submit: submitUserInput
+                };
+
+                return service;
+
+                function submitUserInput(data) {
+                    return $http.post('/echo/json', angular.toJson(data))
+                        .then(submitUserInputComplete);
+
+                    function submitUserInputComplete(response) {
+                        return response.status;
+                    }
+                }
+            }
+        })();
+    </script>
+</body>
+
+</html>
